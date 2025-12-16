@@ -1,0 +1,31 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        transform: rotate(-90deg);
+    }
+
+    .background {
+        fill: none;
+        stroke: #00000014;
+    }
+
+    .progress {
+        fill: none;
+        stroke: #0057ff;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.35s;
+        transform: rotate(0deg);
+        transform-origin: 50% 50%;
+    }
+}
+
+.text {
+    position: absolute;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0057ff;
+}

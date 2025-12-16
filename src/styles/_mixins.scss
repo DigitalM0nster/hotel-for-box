@@ -1,0 +1,147 @@
+@use "sass:math";
+@use "variables" as *;
+
+@mixin container($admin: false) {
+    max-width: $container-max-width;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    // border: 2px solid black;
+
+    // Плавная адаптация между 1920 и 1280
+    @if ($admin == false) {
+        padding-left: clamp($padding-1280, 5vw, $padding-1920);
+        padding-right: clamp($padding-1280, 5vw, $padding-1920);
+
+        // Чёткие значения на брейкпоинтах
+        @media (max-width: $bp-1280) {
+            padding-left: $padding-1280;
+            padding-right: $padding-1280;
+        }
+
+        @media (max-width: $bp-768) {
+            padding-left: $padding-768;
+            padding-right: $padding-768;
+        }
+
+        @media (max-width: $bp-360) {
+            padding-left: $padding-360;
+            padding-right: $padding-360;
+        }
+    }
+}
+
+@mixin box-style($firstBlock: false, $isPadding: true) {
+    border-radius: 24px;
+    @if ($isPadding == true) {
+        padding: 20px;
+    }
+
+    @if $firstBlock == true {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    @media (min-width: 768px) {
+        border-radius: 24px;
+        @if ($isPadding == true) {
+            padding: 20px;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        border-radius: 32px;
+        @if ($isPadding == true) {
+            padding: 32px;
+        }
+        @if $firstBlock == true {
+            margin-left: -32px;
+            margin-right: -32px;
+        }
+    }
+
+    @media (min-width: 1920px) {
+        border-radius: 48px;
+        @if ($isPadding == true) {
+            padding: 48px;
+        }
+        @if $firstBlock == true {
+            margin-left: -48px;
+            margin-right: -48px;
+        }
+    }
+}
+
+/// Миксин: адаптивный текст с плавным переходом между фиксами
+/// Все значения — числа без единиц (например, 16 вместо 16px)
+///! @param $fs360, $lh360, $ls360, $fw360
+///! @param $fs768, $lh768, $ls768, $fw768
+///! @param $fs1280, $lh1280, $ls1280, $fw1280
+///! @param $fs1920, $lh1920, $ls1920, $fw1920
+///
+///? Брейкпоинт	font-size	line-height	letter-spacing	font-weight
+//?   @include fluid-text-full(
+//?     18, 105, -2, 500,   // 360px → 18px, 1.05, -0.02em
+//?     20, 110, -1, 500,   // 768px → 20px, 1.1,  -0.01em
+//?     24, 115,  0,  600,   // 1280px → 24px, 1.15, 0em
+//?     28, 120,  1,  600    // 1920px → 28px, 1.2,  0.01em
+//?   );
+
+@mixin fluid-text(
+    $fs360,
+    $lh360,
+    $ls360,
+    $fw360,
+    $fs768,
+    $lh768,
+    $ls768,
+    $fw768,
+    $fs1280,
+    $lh1280,
+    $ls1280,
+    $fw1280,
+    $fs1920,
+    $lh1920,
+    $ls1920,
+    $fw1920
+) {
+    // font-size: плавный переход от 360 до 768
+    font-size: clamp(
+        #{$fs360}px,
+        calc(#{$fs360}px + (#{$fs768} - #{$fs360}) * ((100vw - 360px) / (768 - 360))),
+        #{$fs768}px
+    );
+
+    // Плавный font-size от 360 до 1920
+    font-size: clamp(
+        #{$fs360}px,
+        calc(#{$fs360}px + (#{$fs1920} - #{$fs360}) * ((100vw - 360px) / (1920 - 360))),
+        #{$fs1920}px
+    );
+
+    // Базовые стили для 360px
+    line-height: #{math.div($lh360, 100)};
+    letter-spacing: #{math.div($ls360, 100)}em;
+    font-weight: #{$fw360};
+
+    // 768px+
+    @media (min-width: 768px) {
+        line-height: #{math.div($lh768, 100)};
+        letter-spacing: #{math.div($ls768, 100)}em;
+        font-weight: #{$fw768};
+    }
+
+    // 1280px+
+    @media (min-width: 1280px) {
+        line-height: #{math.div($lh1280, 100)};
+        letter-spacing: #{math.div($ls1280, 100)}em;
+        font-weight: #{$fw1280};
+    }
+
+    // 1920px+
+    @media (min-width: 1920px) {
+        line-height: #{math.div($lh1920, 100)};
+        letter-spacing: #{math.div($ls1920, 100)}em;
+        font-weight: #{$fw1920};
+    }
+}

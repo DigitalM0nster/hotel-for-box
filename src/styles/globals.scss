@@ -1,0 +1,555 @@
+* {
+    box-sizing: border-box;
+}
+*::-webkit-scrollbar {
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0059ff;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    border: 1px solid #0059ff;
+}
+
+*::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0);
+}
+
+//!стрелки на input=number
+/* Chrome, Safari, Edge */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+.no-spinner[type="number"] {
+    -moz-appearance: textfield;
+}
+
+body {
+    height: 100vh;
+    @apply antialiased transition-all duration-300 ease-in-out text-black;
+    scroll-behavior: smooth;
+}
+
+input {
+    &::selection {
+        outline: 0;
+        border: 0;
+    }
+
+    &:focus {
+        outline: 0;
+        border: 0;
+    }
+}
+
+.mycontainer {
+    @include container;
+}
+
+.mycontainer_admin {
+    @include container(true);
+}
+
+.firstBox {
+    @include box-style(true);
+}
+
+.box {
+    @include box-style;
+}
+.boxNoPadding {
+    @include box-style(false, false);
+}
+
+.btn {
+    @apply rounded-full text-center cursor-pointer 
+    bg-[#0059ff] text-white
+    self-auto md:self-start 
+    py-[11px] lg:py-[15px] xl:py-[18.5px] 
+    px-6 xl:px-20 lg:px-[69px] md:px-[53px]  
+    disabled:cursor-not-allowed disabled:bg-[#6e9aed];
+}
+// font-size	line-height	letter-spacing	font-weight
+.h1 {
+    @include fluid-text(
+        //! 360px
+        28,
+        // font-size
+        105,
+        //line-height
+        -2,
+        //letter-spacing
+        600,
+        //font-weight
+        //! 768px
+        28,
+        105,
+        -2,
+        600,
+        //! 1280px
+        40,
+        105,
+        -2,
+        600,
+        //! 1920px
+        56,
+        105,
+        -4,
+        600
+    );
+}
+.h2 {
+    @include fluid-text(
+        //! 360px
+        24,
+        105,
+        -2,
+        600,
+        //! 768px
+        24,
+        105,
+        -2,
+        600,
+        //! 1280px
+        32,
+        105,
+        -2,
+        600,
+        //! 1920px
+        48,
+        105,
+        -4,
+        600
+    );
+}
+.h3 {
+    @include fluid-text(
+        //! 360px
+        18,
+        100,
+        -2,
+        600,
+        //! 768px
+        18,
+        100,
+        -2,
+        600,
+        //! 1280px
+        24,
+        105,
+        -2,
+        600,
+        //! 1920px
+        40,
+        105,
+        -3,
+        600
+    );
+}
+.h4 {
+    @include fluid-text(
+        //! 360px
+        16,
+        100,
+        0,
+        500,
+        //! 768px
+        16,
+        100,
+        0,
+        500,
+        //! 1280px
+        21,
+        100,
+        -2,
+        600,
+        //! 1920px
+        32,
+        100,
+        -2,
+        600
+    );
+}
+.h4-accent {
+    @include fluid-text(
+        //! 360px
+        16,
+        100,
+        0,
+        600,
+        //! 768px
+        16,
+        100,
+        0,
+        600,
+        //! 1280px
+        21,
+        100,
+        -2,
+        600,
+        //! 1920px
+        32,
+        100,
+        -2,
+        600
+    );
+}
+.h5 {
+    @include fluid-text(
+        //! 360px
+        16,
+        100,
+        0,
+        500,
+        //! 768px
+        16,
+        100,
+        0,
+        500,
+        //! 1280px
+        18,
+        100,
+        0,
+        500,
+        //! 1920px
+        24,
+        100,
+        0,
+        500
+    );
+}
+.h5-accent {
+    @include fluid-text(
+        //! 360px
+        16,
+        100,
+        0,
+        600,
+        //! 768px
+        16,
+        100,
+        0,
+        600,
+        //! 1280px
+        18,
+        100,
+        0,
+        600,
+        //! 1920px
+        24,
+        100,
+        0,
+        600
+    );
+}
+
+.number-1 {
+    @include fluid-text(
+        //! 360px
+        40,
+        100,
+        -3,
+        600,
+        //! 768px
+        40,
+        100,
+        -3,
+        600,
+        //! 1280px
+        44,
+        100,
+        -3,
+        600,
+        //! 1920px
+        60,
+        100,
+        -3,
+        600
+    );
+}
+.number-2 {
+    @include fluid-text(
+        //! 360px
+        40,
+        100,
+        -3,
+        600,
+        //! 768px
+        40,
+        100,
+        -3,
+        600,
+        //! 1280px
+        40,
+        100,
+        -3,
+        600,
+        //! 1920px
+        40,
+        100,
+        -3,
+        600
+    );
+}
+.button-1 {
+    @include fluid-text(
+        //! 360px
+        14,
+        130,
+        -2,
+        600,
+        //! 768px
+        14,
+        130,
+        -2,
+        600,
+        //! 1280px
+        16,
+        130,
+        -2,
+        600,
+        //! 1920px
+        21,
+        130,
+        -2,
+        600
+    );
+}
+.button-2 {
+    @include fluid-text(
+        //! 360px
+        12,
+        130,
+        0,
+        600,
+        //! 768px
+        12,
+        130,
+        0,
+        600,
+        //! 1280px
+        14,
+        130,
+        0,
+        600,
+        //! 1920px
+        16,
+        130,
+        0,
+        600
+    );
+}
+.link {
+    @include fluid-text(
+        //! 360px
+        12,
+        130,
+        0,
+        600,
+        //! 768px
+        12,
+        130,
+        0,
+        600,
+        //! 1280px
+        14,
+        130,
+        0,
+        600,
+        //! 1920px
+        16,
+        130,
+        0,
+        600
+    );
+}
+.tag {
+    @include fluid-text(
+        //! 360px
+        14,
+        100,
+        0,
+        500,
+        //! 768px
+        14,
+        100,
+        0,
+        500,
+        //! 1280px
+        16,
+        100,
+        0,
+        500,
+        //! 1920px
+        18,
+        100,
+        0,
+        500
+    );
+}
+.body-1 {
+    @include fluid-text(
+        //! 360px
+        14,
+        135,
+        0,
+        400,
+        //! 768px
+        16,
+        135,
+        0,
+        400,
+        //! 1280px
+        16,
+        135,
+        0,
+        400,
+        //! 1920px
+        21,
+        135,
+        0,
+        400
+    );
+}
+.body-2 {
+    @include fluid-text(
+        //! 360px
+        14,
+        135,
+        0,
+        400,
+        //! 768px
+        14,
+        135,
+        0,
+        400,
+        //! 1280px
+        14,
+        135,
+        0,
+        400,
+        //! 1920px
+        18,
+        135,
+        0,
+        400
+    );
+}
+.body-3 {
+    @include fluid-text(
+        //! 360px
+        12,
+        135,
+        0,
+        400,
+        //! 768px
+        12,
+        135,
+        0,
+        400,
+        //! 1280px
+        12,
+        135,
+        0,
+        400,
+        //! 1920px
+        16,
+        135,
+        0,
+        400
+    );
+}
+.body-4 {
+    @include fluid-text(
+        //! 360px
+        10,
+        135,
+        0,
+        400,
+        //! 768px
+        10,
+        135,
+        0,
+        400,
+        //! 1280px
+        14,
+        135,
+        0,
+        400,
+        //! 1920px
+        14,
+        135,
+        0,
+        400
+    );
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+
+    // фон: первая часть синяя (по var(--p)), остальное серая
+    background: linear-gradient(
+        to right,
+        #1d4ed8 0%,
+        #1d4ed8 var(--p, 80%),
+        #e5e7eb var(--p, 0%),
+        #e5e7eb 100%
+    );
+
+    // --- WebKit (Chrome/Edge/Safari) ---
+    &::-webkit-slider-runnable-track {
+        height: 8px;
+        border-radius: 4px;
+        background: transparent;
+    }
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #1d4ed8;
+        border: 0;
+        cursor: pointer;
+        margin-top: calc((20px - 8px) / -2);
+    }
+
+    // --- Firefox ---
+    &::-moz-range-track {
+        height: 8px;
+        border-radius: 4px;
+        background: #e5e7eb;
+    }
+    &::-moz-range-progress {
+        height: 8px;
+        border-radius: 4px;
+        background: #1d4ed8;
+    }
+    &::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #1d4ed8;
+        border: 0;
+        cursor: pointer;
+    }
+}

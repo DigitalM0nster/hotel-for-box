@@ -1,0 +1,66 @@
+export const trackResMock = {
+    code: 200,
+    message: "SUCCESS",
+    data: {
+        items: [
+            {
+                id: "mock_12345",
+                tracking_number: "9400110200881234567890",
+                courier_code: "usps",
+                created_at: "2025-01-10 14:25:00",
+                updated_at: "2025-01-12 18:09:00",
+                order_id: null,
+                customer_name: null,
+                customer_email: null,
+                note: null,
+                origin_country: "US",
+                destination_country: "US",
+                shipment_package_count: 1,
+                status: "delivered",
+                status_info: {
+                    status: "delivered",
+                    sub_status: "delivered",
+                    status_text: "Delivered",
+                    sub_status_text: "Package delivered",
+                    status_code: 3,
+                    sub_status_code: 301,
+                    status_category: "completed",
+                },
+                last_event: "Delivered, left with individual",
+                last_update_at: "2025-01-12 17:58:00",
+                events: [
+                    {
+                        time: "2025-01-12 17:58:00",
+                        location: "San Francisco, CA, USA",
+                        status: "Package delivered",
+                        description: "Delivered, left with individual",
+                    },
+                    {
+                        time: "2025-01-11 09:40:00",
+                        location: "Oakland, CA, USA",
+                        status: "Out for delivery",
+                        description: "Out for delivery",
+                    },
+                    {
+                        time: "2025-01-10 22:13:00",
+                        location: "Oakland, CA, USA",
+                        status: "Arrived at unit",
+                        description: "Arrived at local distribution center",
+                    },
+                    {
+                        time: "2025-01-10 03:50:00",
+                        location: "Los Angeles, CA, USA",
+                        status: "Departed USPS facility",
+                        description: "Departed regional facility",
+                    },
+                    {
+                        time: "2025-01-09 19:10:00",
+                        location: "Los Angeles, CA, USA",
+                        status: "Accepted",
+                        description: "Package accepted at USPS origin facility",
+                    },
+                ],
+            },
+        ],
+    },
+};
