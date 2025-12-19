@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/components/admin/AdminTable.module.scss";
 import { IOrder, StatusEnToRu } from "@/mongodb/models/orderModel";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 type AdminOrdersListProps = {
 	orders: IOrder[];
@@ -61,6 +62,9 @@ export default function AdminOrdersList({ orders, page, totalPages, sortField, s
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
+
+	// Флаг для отслеживания, была ли выполнена инициализация значений по умолчанию
+	const hasInitializedDefaults = useRef(false);
 
 	// Синхронизируем локальный список с пропами при изменении данных с сервера.
 	useEffect(() => {
@@ -166,6 +170,25 @@ export default function AdminOrdersList({ orders, page, totalPages, sortField, s
 		const query = buildUpdatedQuery(updates, true);
 		router.push(query ? `/admin/orders?${query}` : "/admin/orders");
 	};
+
+	// Устанавливаем значения по умолчанию для фильтров дат при первой загрузке, если их нет в URL
+	useEffect(() => {
+		// Проверяем, есть ли уже параметры дат в URL
+		const hasCreatedFrom = searchParams.has("createdFrom");
+		const hasCreatedTo = searchParams.has("createdTo");
+
+		// Если параметров нет и мы ещё не инициализировали значения по умолчанию
+		if (!hasCreatedFrom && !hasCreatedTo && !hasInitializedDefaults.current) {
+			hasInitializedDefaults.current = true;
+			const defaultDateFrom = getFirstDayOfCurrentMonth();
+			const defaultDateTo = getLastDayOfCurrentMonth();
+			handleFiltersChange({
+				createdFrom: defaultDateFrom,
+				createdTo: defaultDateTo,
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	// Собираем "активные" фильтры для панели над таблицей.
 	type ActiveFilter = {

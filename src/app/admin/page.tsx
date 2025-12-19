@@ -8,6 +8,7 @@ import DashboardPieChart, { PieChartItem } from "@/components/admin/DashboardPie
 import OldOrdersTable from "@/components/admin/OldOrdersTable";
 import type { DashboardStats } from "@/app/api/admin/dashboard/stats/route";
 import { IOrder } from "@/mongodb/models/orderModel";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Цвета для диаграмм (используем разные оттенки синего и серого)
 const CHART_COLORS = ["#4a7dff", "#6b9fff", "#8cb3ff", "#a8c7ff", "#c4dbff", "#e0efff"];
@@ -15,19 +16,23 @@ const CHART_COLORS = ["#4a7dff", "#6b9fff", "#8cb3ff", "#a8c7ff", "#c4dbff", "#e
 // Компонент контента дашборда администратора.
 // Меню вынесено в отдельный компонент AdminSidebar и рендерится в layout.tsx.
 export default function AdminDashboardPage() {
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+
 	// Состояние для раздела "Продажи по складам"
 	const [salesStats, setSalesStats] = useState<StatItem[]>([]);
 	const [salesChartData, setSalesChartData] = useState<PieChartItem[]>([]);
 	const [salesLoading, setSalesLoading] = useState(true);
-	const [salesDateFrom, setSalesDateFrom] = useState<string | null>(null);
-	const [salesDateTo, setSalesDateTo] = useState<string | null>(null);
+	const [salesDateFrom, setSalesDateFrom] = useState<string | null>(defaultDateFrom);
+	const [salesDateTo, setSalesDateTo] = useState<string | null>(defaultDateTo);
 
 	// Состояние для раздела "Обработки по складам"
 	const [processingStats, setProcessingStats] = useState<StatItem[]>([]);
 	const [processingChartData, setProcessingChartData] = useState<PieChartItem[]>([]);
 	const [processingLoading, setProcessingLoading] = useState(true);
-	const [processingDateFrom, setProcessingDateFrom] = useState<string | null>(null);
-	const [processingDateTo, setProcessingDateTo] = useState<string | null>(null);
+	const [processingDateFrom, setProcessingDateFrom] = useState<string | null>(defaultDateFrom);
+	const [processingDateTo, setProcessingDateTo] = useState<string | null>(defaultDateTo);
 
 	// Состояние для раздела "Заказы старше двух недель"
 	const [oldOrders, setOldOrders] = useState<IOrder[]>([]);
@@ -143,11 +148,12 @@ export default function AdminDashboardPage() {
 		}
 	};
 
-	// Загружаем статистику и заказы при первой загрузке страницы
+	// Загружаем статистику и заказы при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadSalesStats(null, null);
-		loadProcessingStats(null, null);
+		loadSalesStats(defaultDateFrom, defaultDateTo);
+		loadProcessingStats(defaultDateFrom, defaultDateTo);
 		loadOldOrders(1);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам для раздела продаж

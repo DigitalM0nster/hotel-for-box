@@ -99,7 +99,7 @@ export default function OrdersActionsBar({ createHref, orders }: OrdersActionsBa
 					aria-disabled={mergeDisabled}
 					disabled={mergeDisabled}
 				>
-					<div className={styles.actionTextSecondary}>Объединить группы</div>
+					<div className={styles.actionTextSecondary}>Объединить в группу</div>
 					<GroupsCombineIco width={18} height={18} />
 				</button>
 				<button
@@ -145,7 +145,7 @@ export default function OrdersActionsBar({ createHref, orders }: OrdersActionsBa
 										aria-disabled={mergeDisabled}
 										disabled={mergeDisabled}
 									>
-										<div className={styles.actionTextSecondary}>Объединить группы</div>
+										<div className={styles.actionTextSecondary}>Объединить в группу</div>
 										<GroupsCombineIco width={18} height={18} />
 									</button>
 									<button

@@ -36,12 +36,32 @@ export const createBranch = async (branch: Omit<IBranch, "branchId"> & { branchI
 export const updateBranch = async ({ branch, updatedId }: { branch: IBranch; updatedId: string }): Promise<IActionResult> => {
 	try {
 		await connectDB();
-		const updatedBranch = await BranchModel.findOne({ _id: updatedId });
+
+		// Используем findByIdAndUpdate для более надежного обновления
+		const updatedBranch = await BranchModel.findByIdAndUpdate(
+			updatedId,
+			{
+				$set: {
+					title: branch.title,
+					country: branch.country, // Явно устанавливаем страну
+					city: branch.city,
+					adress: branch.adress,
+					zip_code: branch.zip_code,
+					workTime: {
+						from: branch.workTime.from,
+						to: branch.workTime.to,
+					},
+					phone1: branch.phone1,
+					...(branch.phone2 !== undefined && { phone2: branch.phone2 || null }),
+					...(branch.user_message !== undefined && { user_message: branch.user_message || null }),
+					...(branch.admin_description !== undefined && { admin_description: branch.admin_description || null }),
+				},
+			},
+			{ new: true, runValidators: true } // new: true возвращает обновленный документ, runValidators запускает валидацию схемы
+		);
+
 		if (!updatedBranch) return { type: "error", message: "Адрес не найден" };
 
-		Object.assign(updatedBranch, branch);
-
-		await updatedBranch.save();
 		return { type: "success", message: "Отдел успешно обновлен" };
 	} catch (error) {
 		if (error instanceof Error) {
@@ -64,7 +84,7 @@ export const getBranchesAll = async (): Promise<IBranch[]> => {
 export const getBranchById = async ({ id }: { id: string }): Promise<IBranch | null> => {
 	try {
 		await connectDB();
-		const branch = await BranchModel.findById({ _id: id });
+		const branch = await BranchModel.findById(id);
 
 		return normalizeDbRes<IBranch>(branch);
 	} catch (error) {

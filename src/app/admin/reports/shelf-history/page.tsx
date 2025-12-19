@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Тип для записи истории полок
 type ShelfHistoryItem = {
@@ -22,8 +23,11 @@ type ShelfHistoryItem = {
 export default function ShelfHistoryReportPage() {
 	const [items, setItems] = useState<ShelfHistoryItem[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 
 	// Функция для загрузки данных отчёта
 	const loadShelfHistory = async (from: string | null, to: string | null) => {
@@ -48,9 +52,10 @@ export default function ShelfHistoryReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы
+	// Загружаем данные при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadShelfHistory(null, null);
+		loadShelfHistory(defaultDateFrom, defaultDateTo);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам

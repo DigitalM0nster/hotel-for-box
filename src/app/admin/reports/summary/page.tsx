@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Типы для сводки
 type SummaryData = {
@@ -26,8 +27,11 @@ type SummaryData = {
 export default function SummaryReportPage() {
 	const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 
 	// Функция для загрузки сводных данных
 	const loadSummary = async (from: string | null, to: string | null) => {
@@ -52,9 +56,10 @@ export default function SummaryReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы
+	// Загружаем данные при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadSummary(null, null);
+		loadSummary(defaultDateFrom, defaultDateTo);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам

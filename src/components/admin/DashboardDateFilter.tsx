@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./DashboardDateFilter.module.scss";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 type DashboardDateFilterProps = {
 	onApply: (dateFrom: string | null, dateTo: string | null) => void;
@@ -9,9 +10,20 @@ type DashboardDateFilterProps = {
 
 // Компонент фильтра по датам для дашборда.
 // Позволяет выбрать период для отображения статистики.
+// По умолчанию устанавливает период от первого до последнего дня текущего месяца.
 export default function DashboardDateFilter({ onApply }: DashboardDateFilterProps) {
-	const [dateFrom, setDateFrom] = useState<string>("");
-	const [dateTo, setDateTo] = useState<string>("");
+	// Получаем первый и последний день текущего месяца для значений по умолчанию
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+
+	const [dateFrom, setDateFrom] = useState<string>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string>(defaultDateTo);
+
+	// Автоматически применяем фильтр с значениями по умолчанию при первой загрузке компонента
+	useEffect(() => {
+		onApply(defaultDateFrom, defaultDateTo);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	// Обработчик нажатия кнопки "Применить"
 	const handleApply = () => {

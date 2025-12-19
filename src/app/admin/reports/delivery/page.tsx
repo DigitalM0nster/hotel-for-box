@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Тип для агрегированной строки отчёта по доставке
 type DeliveryReportItem = {
@@ -40,8 +41,11 @@ type Branch = {
 export default function DeliveryReportPage() {
 	const [items, setItems] = useState<DeliveryReportItem[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 	const [departmentFromId, setDepartmentFromId] = useState<string | null>(null);
 	const [nameFilter, setNameFilter] = useState<string>("");
 	const [branches, setBranches] = useState<Branch[]>([]);
@@ -87,9 +91,10 @@ export default function DeliveryReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы
+	// Загружаем данные при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadDeliveryReport(null, null, null, "");
+		loadDeliveryReport(defaultDateFrom, defaultDateTo, null, "");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам
@@ -115,13 +120,13 @@ export default function DeliveryReportPage() {
 		return () => clearTimeout(timeoutId);
 	}, [nameFilter]);
 
-	// Обработчик сброса фильтров
+	// Обработчик сброса фильтров - возвращаем к значениям по умолчанию
 	const handleClearFilters = () => {
-		setDateFrom(null);
-		setDateTo(null);
+		setDateFrom(defaultDateFrom);
+		setDateTo(defaultDateTo);
 		setDepartmentFromId(null);
 		setNameFilter("");
-		loadDeliveryReport(null, null, null, "");
+		loadDeliveryReport(defaultDateFrom, defaultDateTo, null, "");
 	};
 
 	// Форматируем дату

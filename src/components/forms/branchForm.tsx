@@ -38,7 +38,12 @@ export default function BranchForm({ branch, redirectTo }: { branch: IBranch | n
 			...(isCreatingBranch
 				? {}
 				: {
-						...branch,
+						title: branch.title,
+						country: branch.country, // Явно устанавливаем страну при редактировании
+						city: branch.city,
+						adress: branch.adress,
+						zip_code: branch.zip_code,
+						phone1: branch.phone1,
 						from: branch.workTime.from,
 						to: branch.workTime.to,
 				  }),
@@ -46,27 +51,28 @@ export default function BranchForm({ branch, redirectTo }: { branch: IBranch | n
 	});
 
 	const handleAction = async (formData: BranchFormData) => {
+		// Явно формируем объект branch для обновления, чтобы гарантировать передачу всех полей, включая country
+		const branchData: IBranch = {
+			title: formData.title,
+			country: formData.country, // Явно указываем страну
+			city: formData.city,
+			adress: formData.adress,
+			zip_code: formData.zip_code,
+			phone1: formData.phone1,
+			workTime: {
+				from: formData.from,
+				to: formData.to,
+			},
+			// Сохраняем branchId при обновлении
+			branchId: branch?.branchId || "",
+		};
+
 		const res = toastShowResult(
 			isCreatingBranch
-				? await createBranch({
-						// Здесь мы отправляем на бэкенд только бизнес-данные,
-						// а ID отделения будет сгенерирован автоматически на сервере.
-						...formData,
-						workTime: {
-							from: formData.from,
-							to: formData.to,
-						},
-				  })
+				? await createBranch(branchData)
 				: await updateBranch({
 						updatedId: branch._id!,
-						branch: {
-							// При обновлении так же не трогаем ID отделения — он уже хранится в базе.
-							...formData,
-							workTime: {
-								from: formData.from,
-								to: formData.to,
-							},
-						},
+						branch: branchData,
 				  })
 		);
 		if (res.type === "success") {

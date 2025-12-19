@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Тип для мешка с информацией о заказах
 type BagItem = {
@@ -22,8 +23,11 @@ export default function BagsReportPage() {
 	const searchParams = useSearchParams();
 	const [bags, setBags] = useState<BagItem[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 
 	// Функция для загрузки данных отчёта
 	const loadBags = async (from: string | null, to: string | null) => {
@@ -54,10 +58,10 @@ export default function BagsReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы и при изменении фильтра по рейсу
+	// Загружаем данные при первой загрузке страницы и при изменении фильтра по рейсу с датами по умолчанию
 	useEffect(() => {
 		const flightIdFromUrl = searchParams.get("flightId");
-		loadBags(null, null);
+		loadBags(defaultDateFrom, defaultDateTo);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchParams]);
 

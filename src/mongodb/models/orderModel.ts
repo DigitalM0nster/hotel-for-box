@@ -1,11 +1,13 @@
 import { model, Model, models, Schema, Types } from "mongoose";
 import { IUser } from "./userModel";
 
+// Порядок статусов соответствует жизненному циклу заказа:
+// Created → Shipping approved → Shipping paid → Arrived → Departed → Delivered → Received
 export const StatusEnToRu = {
 	Created: "Создано",
-	Arrived: "Прибыло",
 	"Shipping approved": "Отправка одобрена",
 	"Shipping paid": "Оплата доставки произведена",
+	Arrived: "Прибыло",
 	Departed: "Отправлено",
 	Delivered: "Доставлено",
 	Received: "Получено",

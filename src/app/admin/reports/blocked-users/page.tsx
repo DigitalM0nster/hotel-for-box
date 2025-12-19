@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Тип для заблокированного пользователя
 type BlockedUser = {
@@ -21,8 +22,11 @@ type BlockedUser = {
 export default function BlockedUsersReportPage() {
 	const [users, setUsers] = useState<BlockedUser[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 
 	// Функция для загрузки заблокированных пользователей
 	const loadBlockedUsers = async (from: string | null, to: string | null) => {
@@ -47,9 +51,10 @@ export default function BlockedUsersReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы
+	// Загружаем данные при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadBlockedUsers(null, null);
+		loadBlockedUsers(defaultDateFrom, defaultDateTo);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/components/admin/AdminTable.module.scss";
 import { IUser } from "@/mongodb/models/userModel";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 type AdminUsersListProps = {
 	users: IUser[];
@@ -50,6 +51,9 @@ export default function AdminUsersList({ users, page, totalPages, sortField, sor
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
+
+	// Флаг для отслеживания, была ли выполнена инициализация значений по умолчанию
+	const hasInitializedDefaults = useRef(false);
 
 	// Если пропы поменялись (например, после серверного обновления), синхронизируем список.
 	useEffect(() => {
@@ -235,6 +239,25 @@ export default function AdminUsersList({ users, page, totalPages, sortField, sor
 		const query = buildUpdatedQuery(updates, true);
 		router.push(query ? `/admin/users?${query}` : "/admin/users");
 	};
+
+	// Устанавливаем значения по умолчанию для фильтров дат при первой загрузке, если их нет в URL
+	useEffect(() => {
+		// Проверяем, есть ли уже параметры дат в URL
+		const hasCreatedFrom = searchParams.has("createdFrom");
+		const hasCreatedTo = searchParams.has("createdTo");
+
+		// Если параметров нет и мы ещё не инициализировали значения по умолчанию
+		if (!hasCreatedFrom && !hasCreatedTo && !hasInitializedDefaults.current) {
+			hasInitializedDefaults.current = true;
+			const defaultDateFrom = getFirstDayOfCurrentMonth();
+			const defaultDateTo = getLastDayOfCurrentMonth();
+			handleFiltersChange({
+				createdFrom: defaultDateFrom,
+				createdTo: defaultDateTo,
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	// Очистка всех фильтров одним кликом.
 	const handleClearAllFilters = () => {

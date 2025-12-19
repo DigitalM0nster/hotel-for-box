@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../../AdminDashboard.module.scss";
 import DashboardDateFilter from "@/components/admin/DashboardDateFilter";
+import { getFirstDayOfCurrentMonth, getLastDayOfCurrentMonth } from "@/helpers/dateHelpers";
 
 // Тип для заказа на самовывоз
 type WalkinOrder = {
@@ -23,8 +24,11 @@ type WalkinOrder = {
 export default function WalkinReportPage() {
 	const [orders, setOrders] = useState<WalkinOrder[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [dateFrom, setDateFrom] = useState<string | null>(null);
-	const [dateTo, setDateTo] = useState<string | null>(null);
+	// Устанавливаем значения по умолчанию: первый и последний день текущего месяца
+	const defaultDateFrom = getFirstDayOfCurrentMonth();
+	const defaultDateTo = getLastDayOfCurrentMonth();
+	const [dateFrom, setDateFrom] = useState<string | null>(defaultDateFrom);
+	const [dateTo, setDateTo] = useState<string | null>(defaultDateTo);
 
 	// Функция для загрузки данных отчёта
 	const loadWalkinOrders = async (from: string | null, to: string | null) => {
@@ -49,9 +53,10 @@ export default function WalkinReportPage() {
 		}
 	};
 
-	// Загружаем данные при первой загрузке страницы
+	// Загружаем данные при первой загрузке страницы с датами по умолчанию
 	useEffect(() => {
-		loadWalkinOrders(null, null);
+		loadWalkinOrders(defaultDateFrom, defaultDateTo);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Обработчик применения фильтра по датам
