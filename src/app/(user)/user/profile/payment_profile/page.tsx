@@ -1,13 +1,10 @@
-import AddCardFormWrapper from "@/components/forms/addCardForm";
-import UserCard from "./UserCard";
-
-//TODO Only plain objects can be passed to Client Components from Server Components. - где-то здесь
+// Страница платежного профиля
+// TODO: Здесь будет интеграция с российской платежной системой (ЮKassa, Сбер и т.д.)
 export default function PaymentProfilePage() {
-    return (
-        <div className="flex flex-col gap-4">
-            <h1>PaymentProfilePage</h1>
-            <AddCardFormWrapper />
-            <UserCard />
-        </div>
-    );
+	return (
+		<div className="flex flex-col gap-4">
+			<h1>Платежный профиль</h1>
+			<p>Функционал оплаты будет добавлен позже</p>
+		</div>
+	);
 }

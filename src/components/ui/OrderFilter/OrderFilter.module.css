@@ -1,0 +1,132 @@
+.filterWrapper {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 50%;
+}
+
+.searchInput {
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 260px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-f-gray-50, #f5f5f5);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.paramsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: var(--color-f-gray-50, #f5f5f5);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.paramsButtonActive :global(*) {
+  fill: var(--color-f-accent, #0059ff);
+}
+
+.filtersMenu {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--color-f-white-100, #ffffff);
+  padding: 24px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  z-index: 10;
+}
+
+.filtersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filtersTitle {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.closeIcon {
+  cursor: pointer;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-f-blue-500, #56688e);
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-f-gray-50, #f5f5f5);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 12px 24px;
+  cursor: pointer;
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+}
+
+.applyButton {
+  background: var(--color-f-accent, #0059ff);
+  color: var(--color-f-white-100, #ffffff);
+}
+
+.resetButton {
+  background: transparent;
+  color: var(--color-f-blue-500, #56688e);
+  border: 1px solid var(--color-f-blue-500, #56688e);
+}
+
+@media (min-width: 768px) {
+  .filtersMenu {
+    position: absolute;
+    inset: auto;
+    right: 0;
+    bottom: -8px;
+    transform: translateY(100%);
+    width: 360px;
+  }
+}/*# sourceMappingURL=OrderFilter.module.css.map */

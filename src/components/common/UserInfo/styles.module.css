@@ -1,0 +1,47 @@
+.userInfoWrapper {
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 8px;
+}
+
+.userInfoProgress {
+  padding-bottom: 16px;
+}
+
+.userInfoGreeting {
+  margin-bottom: 8px;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.userInfoRow {
+  flex-direction: row;
+  align-items: center;
+  -moz-column-gap: 4px;
+       column-gap: 4px;
+  margin-bottom: 8px;
+}
+
+.userInfoLabel {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: var(--color-f-blue-500, #56688e);
+}
+
+a.userInfoLabel {
+  text-decoration: underline;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 30px 0px 0px 0px;
+}
+
+.userInfoValue {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: var(--color-f-blue-950, #0e275d);
+}/*# sourceMappingURL=styles.module.css.map */

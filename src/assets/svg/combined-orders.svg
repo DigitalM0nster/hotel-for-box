@@ -1,0 +1,9 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Два перекрывающихся круга на разных вертикальных уровнях: контуры с залитой областью пересечения -->
+  <!-- Левый круг (верхний уровень, только контур) -->
+  <circle cx="6" cy="7" r="4" stroke="currentColor" stroke-width="1" fill="none"/>
+  <!-- Правый круг (нижний уровень, только контур) -->
+  <circle cx="10" cy="9" r="4" stroke="currentColor" stroke-width="1" fill="none"/>
+  <!-- Область пересечения (овал в центре соединения - залита) -->
+  <ellipse cx="8" cy="8" rx="2.5" ry="1.8" fill="currentColor"/>
+</svg>

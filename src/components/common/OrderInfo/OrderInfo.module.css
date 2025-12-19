@@ -1,0 +1,174 @@
+@charset "UTF-8";
+/* Стили карточки информации о заказе без tailwind и inline. */
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Секция со статусом — делаем её отдельной карточкой как summary-блок в форме */
+.statusSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #d4d7dd;
+  background: var(--color-f-white-100, #ffffff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-f-accent, #0059ff);
+  margin-bottom: 8px;
+}
+
+/* Секция с информацией — как карточки во второй части формы заказа */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #d4d7dd;
+  background: #f7f8fb;
+}
+
+/* Заголовок секции */
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a6478;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+/* Строка с информацией (лейбл-значение) — как поля в форме, а не таблица */
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.infoLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a8498;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.infoValue {
+  font-size: 14px;
+  color: #1f2430;
+  word-break: break-word;
+}
+
+/* Карточка товара внутри заказа — раскрывающийся блок, как в форме */
+.productCard {
+  border-radius: 12px;
+  border: 1px solid #d4d7dd;
+  background: #ffffff;
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+
+.productHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.productHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.productBrand {
+  font-size: 13px;
+  color: #7a8498;
+}
+
+.productHeaderRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.productQty {
+  font-size: 13px;
+  color: #5a6478;
+}
+
+.productPrice {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-f-accent, #0059ff);
+}
+
+.productBody {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e0e4ec;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Строка с итогом */
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  margin-top: 8px;
+  border-top: 2px solid #1f2430;
+}
+
+.totalLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2430;
+  text-transform: uppercase;
+}
+
+.totalDetails {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2430;
+}
+
+@media (max-width: 640px) {
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .infoValue {
+    text-align: left;
+  }
+  .totalRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}/*# sourceMappingURL=OrderInfo.module.css.map */

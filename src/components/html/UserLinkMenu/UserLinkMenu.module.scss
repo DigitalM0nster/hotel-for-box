@@ -1,0 +1,97 @@
+.asideMenuItem {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 24px 32px;
+	border-radius: 16px;
+	cursor: pointer;
+	text-decoration: none;
+	background: transparent;
+}
+
+.asideMenuItemDefault {
+	background: transparent;
+}
+
+.asideMenuItemSelected {
+	background: var(--color-f-white-100, #ffffff);
+}
+
+.asideMenuIcon {
+	display: flex;
+}
+
+.asideMenuIcon :global(*) {
+	fill: var(--color-f-blue-500, #56688e);
+}
+
+.asideMenuIconSelected :global(*) {
+	fill: var(--color-f-accent, #0059ff);
+}
+
+.asideMenuTitle {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	font-size: 14px;
+	line-height: 1.4;
+	font-weight: 500;
+}
+
+.asideMenuTitleDefault {
+	color: var(--color-f-blue-950, #0e275d);
+}
+
+.asideMenuTitleSelected {
+	color: var(--color-f-accent, #0059ff);
+}
+
+.footerMenuItem {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	text-decoration: none;
+}
+
+.footerMenuIndicator {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 24px;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--color-f-accent, #0059ff);
+}
+
+.footerMenuIcon {
+	display: flex;
+}
+
+.footerMenuIcon :global(*) {
+	fill: var(--color-f-blue-500, #56688e);
+}
+
+.footerMenuIconSelected :global(*) {
+	fill: var(--color-f-accent, #0059ff);
+}
+
+.footerMenuTitle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	font-size: 14px;
+	line-height: 1.4;
+	font-weight: 500;
+}
+
+.footerMenuTitleDefault {
+	color: var(--color-f-blue-950, #0e275d);
+}
+
+.footerMenuTitleSelected {
+	color: var(--color-f-accent, #0059ff);
+}

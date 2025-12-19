@@ -2,10 +2,9 @@ import ProfileLayout from "@/layouts/ProfileLayout/ProfileLayout";
 import UserLayout from "@/layouts/UserLayout/UserLayout";
 
 export default function RootLayout({
-    children,
+	children,
 }: Readonly<{
-    children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-    return <ProfileLayout>{children}</ProfileLayout>;
-    return children;
+	return <ProfileLayout>{children}</ProfileLayout>;
 }

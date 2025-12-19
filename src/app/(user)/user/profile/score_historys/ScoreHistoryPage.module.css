@@ -1,0 +1,142 @@
+.pointsHistoryWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.pointsHistoryTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.tableCard {
+  border-radius: 16px;
+  border: 1px solid var(--color-f-gray-200, #e0e4ec);
+  background: var(--color-f-white-100, #ffffff);
+  padding: 16px 20px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.thead {
+  background: #f7f9fc;
+}
+
+.th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a8498;
+  border-bottom: 1px solid #e0e4ec;
+  white-space: nowrap;
+}
+
+.td {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #1f2430;
+  border-bottom: 1px solid #f1f3f8;
+  vertical-align: middle;
+}
+
+.invoiceCell {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 13px;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.amountCell {
+  font-weight: 600;
+}
+
+.pointsPositive {
+  color: #1d7a2f;
+  font-weight: 600;
+}
+
+.pointsNegative {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusActive {
+  background: #e6f6ec;
+  color: #1d7a2f;
+}
+
+.statusPending {
+  background: #fff7e6;
+  color: #b7791f;
+}
+
+.statusCancelled {
+  background: #ffe6e6;
+  color: #c53030;
+}
+
+.emptyRow {
+  text-align: center;
+  color: #7a8498;
+  font-size: 14px;
+  padding: 32px 12px;
+}
+
+.paginationRow {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.pageButton {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #d0d7e6;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #1f2430;
+  cursor: default;
+}
+
+.pageButtonActive {
+  background: var(--color-f-accent, #0059ff);
+  border-color: var(--color-f-accent, #0059ff);
+  color: #ffffff;
+}
+
+.pageButtonIcon {
+  font-size: 14px;
+  color: #7a8498;
+}
+
+.pageButtonDisabled {
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .tableCard {
+    padding: 12px;
+  }
+}/*# sourceMappingURL=ScoreHistoryPage.module.css.map */

@@ -1,0 +1,378 @@
+@charset "UTF-8";
+/* Стили списка заказов без tailwind и inline. */
+.emptyWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.emptyBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: inline-flex;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 10px 24px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  border-radius: 999px;
+  background: var(--color-f-accent, #0059ff);
+  text-decoration: none;
+}
+
+.createButtonText {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.createButtonIcon :global(path) {
+  fill: #ffffff;
+}
+
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  background: var(--color-f-white-100, #ffffff);
+  padding: 12px 16px;
+  cursor: pointer;
+  /* Плавный переход, чтобы при ховере карточка
+     немного "поднималась" и подсвечивалась */
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+/* При наведении на карточку делаем лёгкое приподнятие и тень,
+   чтобы было понятно, что элемент кликабелен */
+.orderCard:hover {
+  border-color: var(--color-f-accent, #0059ff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.orderCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.orderIdRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #7a8498;
+}
+
+.orderIdLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.orderIdValue {
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.orderActionsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.orderActionButton {
+  border-radius: 999px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  background: #ffffff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-f-accent, #0059ff);
+  cursor: pointer;
+  /* Плавный переход, чтобы ховер выглядел мягко */
+  transition: 0.15s;
+}
+
+/* При наведении на обычную кнопку — заполняем её цветом акцента */
+.orderActionButton:hover:not(:disabled) {
+  background: var(--color-f-accent, #0059ff);
+  color: #ffffff;
+}
+
+.orderActionButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.orderActionDanger {
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+/* Для кнопки удаления — красный фон при ховере,
+   чтобы было понятно, что действие опасное */
+.orderActionButton.orderActionDanger:hover:not(:disabled) {
+  background: #e53e3e;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.orderCardBody {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.orderIcon {
+  display: inline-flex;
+  align-self: center;
+}
+
+.orderContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.orderDescription {
+  color: var(--color-f-accent, #0059ff);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.orderId {
+  color: #7a8498;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.orderMetaRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: #1f2430;
+  font-size: 14px;
+}
+
+.orderShop {
+  flex: 1;
+  color: #1f2430;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orderTrack {
+  font-weight: 700;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Панель активных фильтров над таблицей пользователей в админке. */
+.filtersPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  background: #f7f9ff;
+}
+
+.filtersPanelHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.filtersPanelTitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a8498;
+}
+
+.filtersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filtersChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  background: #ffffff;
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 12px;
+}
+
+.filtersClearButton {
+  align-self: flex-start;
+}
+
+.orderStatusRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.orderStatusLabel {
+  font-size: 13px;
+  color: #7a8498;
+}
+
+.orderStatusValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1d7a2f;
+}
+
+.orderDate {
+  font-size: 12px;
+  color: #7a8498;
+  white-space: nowrap;
+}
+
+/* Таблица для современных списков (например, пользователей в админке) */
+.ordersTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-f-white-100, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.ordersTable thead {
+  background: #f5f7fb;
+}
+
+.ordersTable th {
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a8498;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+}
+
+/* Верхняя строка шапки (заголовки колонок) — убираем нижнюю границу,
+   чтобы визуально связать её с строкой фильтров под ней, а не отделять. */
+.ordersTable thead tr:first-child th {
+  border-bottom: none;
+}
+
+/* Строка с инпутами-фильтрами — оставляем разделительную линию,
+   которая уже отделяет зону фильтров от основной части таблицы. */
+.ordersTable thead tr:last-child th {
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+}
+
+.ordersTable td {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--color-f-blue-950, #0e275d);
+  border-bottom: 1px solid #edf0f5;
+}
+
+/* Поля выбора даты в фильтрах — убираем стандартную иконку календаря,
+   чтобы поле выглядело как обычный инпут, но при этом оставалось кликабельным. */
+.ordersTable input[type=date] {
+  cursor: pointer;
+}
+
+.ordersTable input[type=date]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/* Чередование строк для лучшей читаемости */
+.orderRow:nth-child(even) {
+  background: #fafbff;
+}
+
+/* Эффект при наведении на строку таблицы */
+.orderRow:hover {
+  background: #eef4ff;
+}
+
+/* Ячейка с действиями — выравниваем контент по правому краю на десктопе */
+.ordersTable td:last-child {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .ordersTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 640px) {
+  .orderCardTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .orderHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .orderFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .orderStatusRow {
+    order: 1;
+  }
+  .orderDate {
+    order: 2;
+  }
+}/*# sourceMappingURL=OrdersList.module.css.map */

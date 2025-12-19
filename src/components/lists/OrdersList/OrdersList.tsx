@@ -1,67 +1,144 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { progectPathes } from "@/config/pathes";
 import { BoxBigIco, BoxSmallIco, PlusIco } from "@/icons/icons";
 import { IOrder, StatusEnToRu } from "@/mongodb/models/orderModel";
-import Link from "next/link";
+import styles from "./OrdersList.module.scss";
 
 export default function OrdersList({ orders }: { orders: IOrder[] }) {
-    if (!orders.length)
-        return (
-            <div className="w-full h-full flex items-center justify-center ">
-                <div className="flex flex-col gap-4">
-                    <BoxBigIco className="self-center" />
-                    <div className="body-1 text-f-blue-950">
-                        У вас нет ожидаемых входящих посылок
-                    </div>
-                    <Link
-                        href={progectPathes.ordersId.path + "new_order"}
-                        className="flex gap-[11px] items-center justify-center px-6 py-2 md:py-3 border border-f-accent rounded-full bg-f-accent self-center"
-                    >
-                        <div className="button-2 text-white">Создать заказ</div>
-                        <PlusIco className="**:text-white" width={18} height={18} />
-                    </Link>
-                </div>
-            </div>
-        );
+	const router = useRouter();
+	const [list, setList] = useState<IOrder[]>(orders);
+	const [deletingId, setDeletingId] = useState<string | null>(null);
 
-    return (
-        <div className="flex flex-col gap-2">
-            {orders.map((order) => (
-                <Link
-                    key={order._id}
-                    href={progectPathes.ordersId.path + order._id}
-                    className="boxNoPadding bg-f-white-100 py-3 px-6 flex cursor-pointer justify-between"
-                >
-                    <div className="flex gap-4 w-full">
-                        <BoxSmallIco className="self-center" />
-                        <div className="w-full flex flex-col gap-2 ">
-                            <div className="flex justify-between">
-                                <div className="body-1 text-f-accent ">{order.description}</div>
-                                <div className="body-4 text-f-gray-500 text-md self-end">
-                                    {order._id}
-                                </div>
-                            </div>
+	// Когда табы переключаются и в компонент приходят другие заказы,
+	// синхронизируем локальный список с пропами.
+	useEffect(() => {
+		setList(orders);
+	}, [orders]);
 
-                            <div className="flex gap-2">
-                                <div>{order.shopUrl}</div>
-                                <div className="font-bold">{order.track}</div>
-                            </div>
-                            <div className="flex justify-between ">
-                                <div className="flex items-center gap-2">
-                                    <div className="body-3 text-f-gray-500">статус</div>
-                                    <div className="text-green-700">
-                                        {StatusEnToRu[order.status]}
-                                    </div>
-                                </div>
-                                <div className="body-4 text-f-gray-500 text-md self-end">
-                                    {new Date(order.createdAt || 0).toLocaleString()}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Link>
-            ))}
-        </div>
-    );
+	if (!list.length)
+		return (
+			<div className={styles.emptyWrapper}>
+				<div className={styles.emptyBox}>
+					<BoxBigIco className={styles.emptyIcon} />
+					<div className={styles.emptyTitle}>У вас нет ожидаемых входящих посылок</div>
+					<Link href={progectPathes.ordersId.path + "new_order"} className={styles.createButton}>
+						<span className={styles.createButtonText}>Создать заказ</span>
+						<PlusIco className={styles.createButtonIcon} width={18} height={18} />
+					</Link>
+				</div>
+			</div>
+		);
+
+	const handleOpenOrder = (order: IOrder) => {
+		// Всегда ведём по нашему человекочитаемому orderId, а не по _id.
+		const orderId = order.orderId || order._id;
+		if (!orderId) return;
+		router.push(progectPathes.ordersId.path + orderId);
+	};
+
+	const handleEditOrder = (event: React.MouseEvent, order: IOrder, status?: IOrder["status"]) => {
+		event.stopPropagation();
+		const orderId = order.orderId || order._id;
+		if (!orderId || !status) return;
+
+		// Редактировать можно только заказы в статусе "Создано".
+		// Все остальные статусы считаем "выше чем создано" и блокируем редактирование.
+		if (status !== "Created") return;
+
+		// Открываем редактор конкретного заказа
+		router.push(`${progectPathes.ordersId.path}${orderId}/edit`);
+	};
+
+	const handleDeleteOrder = async (event: React.MouseEvent, order: IOrder, status?: IOrder["status"]) => {
+		event.stopPropagation();
+		const orderId = order.orderId || order._id;
+		if (!orderId || !status) return;
+
+		// Удалять пользователь может только заказы в статусе "Создано".
+		// Все статусы выше (одобрена отправка, оплачено, отправлено, прибыло, доставлено, получено)
+		// считаем зафиксированными и не даём их удалять.
+		if (status !== "Created") return;
+
+		const confirmed = window.confirm("Вы действительно хотите удалить этот заказ?");
+		if (!confirmed) return;
+
+		try {
+			setDeletingId(orderId);
+			const res = await fetch(`/api/orders/${orderId}`, {
+				method: "DELETE",
+			});
+			const data = await res.json();
+			if (!res.ok) {
+				alert(data?.message || "Не удалось удалить заказ");
+				return;
+			}
+
+			setList((prev) => prev.filter((o) => (o.orderId || o._id) !== orderId));
+		} catch (error) {
+			alert("Ошибка удаления заказа, попробуйте ещё раз");
+		} finally {
+			setDeletingId(null);
+		}
+	};
+
+	return (
+		<div className={styles.listWrapper}>
+			{list.map((order) => {
+				// Для пользователя редактирование и удаление доступны только в статусе "Created".
+				// Для всех остальных статусов кнопки действий скрываем.
+				const isLocked = order.status !== "Created";
+				return (
+					<div key={order._id} className={styles.orderCard} onClick={() => handleOpenOrder(order)}>
+						<div className={styles.orderCardTop}>
+							<div className={styles.orderIdRow}>
+								<span className={styles.orderIdLabel}>Заказ:</span>
+								{/* Показываем человекочитаемый ID (orderId), а при его отсутствии — технический _id. */}
+								<span className={styles.orderIdValue}>#{order.orderId || order._id}</span>
+							</div>
+							{!isLocked && (
+								<div className={styles.orderActionsRow}>
+									<button type="button" className={styles.orderActionButton} onClick={(event) => handleEditOrder(event, order, order.status)}>
+										Редактировать
+									</button>
+									<button
+										type="button"
+										className={`${styles.orderActionButton} ${styles.orderActionDanger}`}
+										onClick={(event) => handleDeleteOrder(event, order, order.status)}
+										disabled={deletingId === (order.orderId || order._id)}
+									>
+										{deletingId === (order.orderId || order._id) ? "Удаляем..." : "Удалить"}
+									</button>
+								</div>
+							)}
+						</div>
+
+						<div className={styles.orderCardBody}>
+							<BoxSmallIco className={styles.orderIcon} />
+							<div className={styles.orderContent}>
+								<div className={styles.orderHeader}>
+									<div className={styles.orderDescription}>{order.description}</div>
+								</div>
+
+								<div className={styles.orderMetaRow}>
+									<div className={styles.orderShop}>{order.shopUrl}</div>
+									<div className={styles.orderTrack}>{order.track}</div>
+								</div>
+								<div className={styles.orderFooter}>
+									<div className={styles.orderStatusRow}>
+										<div className={styles.orderStatusLabel}>статус</div>
+										<div className={styles.orderStatusValue}>{StatusEnToRu[order.status]}</div>
+									</div>
+									<div className={styles.orderDate}>{new Date(order.createdAt || 0).toLocaleString()}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	);
 }

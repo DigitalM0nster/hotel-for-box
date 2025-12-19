@@ -1,0 +1,291 @@
+.ordersPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+  padding-bottom: 16px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.actionsDesktop {
+  display: inline-flex;
+  gap: 12px;
+}
+
+.actionsDesktopHidden {
+  display: none;
+}
+
+.mobileTrigger {
+  display: none;
+  margin-left: auto;
+}
+
+.mobilePanel {
+  background: var(--color-f-white-100, #ffffff);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.mobilePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobilePanelActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tabsTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+
+.tabsTagActive {
+  color: var(--color-f-blue-950, #0e275d);
+  background: var(--color-f-gray-50, #f5f5f5);
+}
+
+.tabsTagInactive {
+  color: var(--color-f-blue-500, #56688e);
+  background: transparent;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  cursor: pointer;
+}
+
+.actionPrimary {
+  background: var(--color-f-accent, #0059ff);
+  color: var(--color-f-white-100, #ffffff);
+}
+
+.actionSecondary {
+  background: var(--color-f-white-100, #ffffff);
+  color: var(--color-f-accent, #0059ff);
+}
+
+.actionTextPrimary {
+  color: var(--color-f-white-100, #ffffff);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.actionTextSecondary {
+  color: var(--color-f-accent, #0059ff);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.mobileOverlay {
+  display: none;
+}
+
+.tabsRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.tabsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tabItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.tabActive {
+  color: var(--color-f-blue-950, #0e275d);
+  background: var(--color-f-gray-50, #f5f5f5);
+}
+
+.tabInactive {
+  color: var(--color-f-blue-500, #56688e);
+  background: transparent;
+}
+
+.actionDisabled {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 20;
+}
+
+.modalShell {
+  background: var(--color-f-white-100, #ffffff);
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 320px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.modalClose {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.modalItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modalItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modalItemTitle {
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.modalItemSub {
+  color: var(--color-f-blue-500, #56688e);
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.modalItemGroup {
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+.ordersBox {
+  margin-top: 16px;
+  background: var(--color-f-gray-50, #f5f5f5);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .actionsDesktop {
+    display: none;
+  }
+  .actionsDesktopHidden {
+    display: inline-flex;
+  }
+  .mobileTrigger {
+    display: inline-flex;
+  }
+}
+@media (max-width: 768px) {
+  .mobileOverlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    padding: 16px;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+}
+@media (max-width: 480px) {
+  .searchInput {
+    max-width: 100%;
+  }
+}/*# sourceMappingURL=OrdersPage.module.css.map */

@@ -1,0 +1,96 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.changePassword {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  border-radius: 999px;
+  padding: 11px 24px;
+  color: var(--color-f-accent, #0059ff);
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 24px;
+  background: var(--color-f-accent, #0059ff);
+  color: var(--color-f-white-100, #ffffff);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background: var(--color-f-blue-disabled, #6e9aed);
+  cursor: not-allowed;
+}
+
+.readonlyField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.readonlyField .readonlyLabel {
+  color: var(--color-f-blue-500, #56688e);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.readonlyField .readonlyValue {
+  position: relative;
+  display: flex;
+  background: var(--color-f-gray-50, #f5f5f5);
+  width: 100%;
+  color: var(--color-f-blue-950, #0e275d);
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .formWrapper {
+    gap: 24px;
+  }
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .column {
+    gap: 24px;
+  }
+}/*# sourceMappingURL=updateUserForm.module.css.map */

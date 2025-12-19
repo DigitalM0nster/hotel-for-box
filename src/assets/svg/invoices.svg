@@ -1,0 +1,9 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Чек с рваным нижним краем и двумя линиями -->
+  <!-- Основной прямоугольник с зубчатым нижним краем (как у оторванного чека) -->
+  <path d="M3 2H11V12L10.5 13L10 12L9.5 13L9 12L8.5 13L8 12L7.5 13L7 12L6.5 13L6 12L5.5 13L5 12L4.5 13L4 12L3.5 13L3 12V2Z" fill="currentColor"/>
+  <path d="M11 2L13 4H11V2Z" fill="currentColor" opacity="0.8"/>
+  <!-- Две короткие горизонтальные линии в верхней части -->
+  <line x1="4.5" y1="5.5" x2="7" y2="5.5" stroke="white" stroke-width="0.8" opacity="0.6"/>
+  <line x1="4.5" y1="7" x2="6.5" y2="7" stroke="white" stroke-width="0.8" opacity="0.6"/>
+</svg>

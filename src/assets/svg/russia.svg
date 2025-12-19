@@ -1,0 +1,10 @@
+<svg width="32" height="16" viewBox="0 0 32 16" xmlns="http://www.w3.org/2000/svg">
+	<!-- $;03  >AA88: B@8 3>@87>=B0;L=K5 ?>;>AK >48=0:>2>9 2KA>BK -->
+	<rect width="32" height="16" fill="none" />
+	<!-- 5@E=OO ?>;>A0 - 15;0O -->
+	<rect x="0" y="0" width="32" height="5.3333" fill="#FFFFFF" />
+	<!-- !@54=OO ?>;>A0 - A8=OO -->
+	<rect x="0" y="5.3333" width="32" height="5.3333" fill="#0039A6" />
+	<!-- 86=OO ?>;>A0 - :@0A=0O -->
+	<rect x="0" y="10.6667" width="32" height="5.3333" fill="#D52B1E" />
+</svg>

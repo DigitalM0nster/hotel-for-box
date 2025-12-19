@@ -1,0 +1,28 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper svg {
+  transform: rotate(-90deg);
+}
+.wrapper .background {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.0784313725);
+}
+.wrapper .progress {
+  fill: none;
+  stroke: #0057ff;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+}
+
+.text {
+  position: absolute;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0057ff;
+}/*# sourceMappingURL=CircleProgress.module.css.map */

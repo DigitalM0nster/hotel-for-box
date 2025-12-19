@@ -1,111 +1,219 @@
 "use client";
 
-import { DeliveryProgress } from "@/components/ui/DeliveryProgress/DeliveryProgress";
+import { IOrder, StatusEnToRu } from "@/mongodb/models/orderModel";
 import { StatusTimeline } from "@/components/ui/StatusTimeLine/StatusTimeLine";
-import { IOrder } from "@/mongodb/models/orderModel";
-import { IProduct } from "@/mongodb/models/productModel";
-import DeliveryAdminPanel from "../DeliveryAdminPanel/DeliveryAdminPanel";
-import { ArrowRightIco, Caretdown } from "@/icons/icons";
+import styles from "./OrderInfo.module.scss";
 
 export default function OrderInfo({ order }: { order: IOrder }) {
-    console.log("ORDER 🆔", order);
+	const { products, adressSnapshot } = order;
 
-    const { products } = order;
-    return (
-        <div className="box bg-f-gray-50 flex flex-col gap-4">
-            <div className="h3 text-f-accent">{order.description}</div>
+	// В новой модели всегда используем снимок адреса, сохранённый в заказе.
+	const adress = adressSnapshot;
 
-            <div className="flex justify-between">
-                <div className="h5 flex gap-1 text-f-gray-500">
-                    <div>ID :</div>
-                    <div>{order._id}</div>
-                </div>
-                <div className="text-f-gray-500">
-                    {new Date(order.createdAt || 0).toLocaleString()}
-                </div>
-            </div>
-            <div className="box flex justify-between gap-2 h4 bg-f-white-100">
-                <div className="text-f-gray-500">{order.shopUrl}</div>
-                <div>{order.track}</div>
-                <div className="text-green-700">{order.products_total_cost}$</div>
-            </div>
+	// Формируем полное имя получателя
+	const recipientFullName = adress?.recipientName ? [adress.recipientName, adress.recipientSurname, adress.recipientPatronymic].filter(Boolean).join(" ") : "-";
 
-            <OrderProductList products={products} />
+	// ID получателя (ИНН для бизнеса, паспорт для физлица)
+	const recipientId = adress?.isBusiness ? adress?.recipientInnNumber || "-" : adress?.passportSeriesNumber || "-";
 
-            <DeliveryProgress orderId={order._id!} status={order.status} orientation="horizontal" />
+	// Подсчет итогов по продуктам
+	const totalQuantity = products.reduce((sum, product) => sum + product.quantity, 0);
+	const totalCost = products.reduce((sum, product) => sum + product.price * product.quantity, 0);
 
-            <DeliveryAdminPanel order={order} />
-        </div>
-    );
-}
+	// Тип заказа (Personal/Business)
+	const orderType = order.isBusiness ? "Бизнес" : "Персональный";
 
-function OrderProductList({ products }: { products: IProduct[] }) {
-    return (
-        <div className="box bg-f-white-100 flex flex-col gap-2">
-            {products.map((product) => (
-                <details key={product._id} className="group rounded-2xl p-4 bg-f-gray-50 ">
-                    <summary className="body-2 cursor-pointer select-none text-f-accent flex justify-between relative pl-7">
-                        <Caretdown className="rotate-180 group-open:-rotate-0 transition absolute left-0 scale-70 top-0.5" />
-                        <div>{product.name}</div>
-                        <div>x{product.quantity}</div>
-                    </summary>
-                    <div className="max-w-lg mx-auto">
-                        <table className="w-full text-sm text-left">
-                            <tbody className="divide-y divide-gray-200">
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Бренд</td>
-                                    <td className="py-2">{product.brand}</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Категория</td>
-                                    <td className="py-2">{product.category}</td>
-                                </tr>
-                                {product.size && (
-                                    <tr>
-                                        <td className="py-2 font-medium text-gray-700">Размер</td>
-                                        <td className="py-2">{product.size}</td>
-                                    </tr>
-                                )}
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Цвет</td>
-                                    <td className="py-2 flex items-center gap-2">
-                                        <span
-                                            className="w-4 h-4 rounded-full border"
-                                            style={{ backgroundColor: product.color }}
-                                        ></span>
-                                        {product.color}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Цена</td>
-                                    <td className="py-2">${product.price}</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Количество</td>
-                                    <td className="py-2">{product.quantity}</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Вес</td>
-                                    <td className="py-2">{product.weight} кг</td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Габариты</td>
-                                    <td className="py-2">
-                                        {product.width_x} × {product.height_y} × {product.depth_z}{" "}
-                                        cм
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="py-2 font-medium text-gray-700">Описание</td>
-                                    <td className="py-2 text-gray-600">
-                                        {product.description || "---"}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </details>
-            ))}
-        </div>
-    );
+	// Тип получателя (Personal/Business)
+	const recipientType = adress?.isBusiness ? "Бизнес" : "Персональный";
+
+	// Тип доставки из адреса
+	const shipmentType = adress?.deliveryMethod === "courier" ? "Курьер" : adress?.deliveryMethod === "warehouse" ? "Склад" : "-";
+
+	// Есть ли выставленный администратором счёт (ориентируемся на наличие стоимости доставки)
+	const hasInvoice = typeof order.order_coast === "number" && !Number.isNaN(order.order_coast);
+
+	// Человеческий статус оплаты по счёту
+	let invoiceStatus = "Счёт не оплачен";
+	if (typeof order.paid === "number" && order.paid > 0) {
+		if (order.order_coast != null && order.paid >= order.order_coast) {
+			invoiceStatus = "Счёт оплачен";
+		} else {
+			invoiceStatus = "Оплачен частично";
+		}
+	}
+
+	return (
+		<div className={styles.infoWrapper}>
+			{/* Заголовок - название заказа */}
+			<div className={styles.title}>{order.description}</div>
+
+			{/* Секция TRACKING INFO */}
+			<div className={styles.section}>
+				<div className={styles.sectionTitle}>ИНФОРМАЦИЯ ОБ ОТСЛЕЖИВАНИИ</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>ID заказа</div>
+					{/* Показываем человекочитаемый ID заказа (orderId), а не технический _id. */}
+					<div className={styles.infoValue}>#{order.orderId || order._id}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Номер отслеживания</div>
+					<div className={styles.infoValue}>{order.track || "-"}</div>
+				</div>
+			</div>
+
+			{/* Визуальное отображение статуса заказа */}
+			<div className={styles.statusSection}>
+				<StatusTimeline current={order.status} statusUpdateTime={order.updatedAt} orderCreatedAt={order.createdAt} />
+			</div>
+
+			{/* Секция ORDER INFO */}
+			<div className={styles.section}>
+				<div className={styles.sectionTitle}>ИНФОРМАЦИЯ О ЗАКАЗЕ</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Описание заказа</div>
+					<div className={styles.infoValue}>{order.description}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Тип доставки</div>
+					<div className={styles.infoValue}>{shipmentType}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Тип заказа</div>
+					<div className={styles.infoValue}>{orderType}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Сайт</div>
+					<div className={styles.infoValue}>{order.shopUrl}</div>
+				</div>
+
+				{/* Информация о счёте прямо в блоке заказа */}
+				{hasInvoice ? (
+					<>
+						<div className={styles.infoRow}>
+							<div className={styles.infoLabel}>Стоимость доставки</div>
+							<div className={styles.infoValue}>{typeof order.order_coast === "number" ? `$${order.order_coast.toFixed(2)}` : "—"}</div>
+						</div>
+						<div className={styles.infoRow}>
+							<div className={styles.infoLabel}>Оплачено</div>
+							<div className={styles.infoValue}>{typeof order.paid === "number" ? `$${order.paid.toFixed(2)} (${invoiceStatus})` : `0.00 $ (${invoiceStatus})`}</div>
+						</div>
+					</>
+				) : (
+					<div className={styles.infoRow}>
+						<div className={styles.infoLabel}>Статус счёта</div>
+						<div className={styles.infoValue}>Счёт ещё не выставлен администратором</div>
+					</div>
+				)}
+			</div>
+
+			{/* Секция ORDER CONTENTS */}
+			<div className={styles.section}>
+				<div className={styles.sectionTitle}>СОДЕРЖИМОЕ ЗАКАЗА</div>
+
+				{products.map((product, index) => {
+					const totalProductCost = (product.price || 0) * (product.quantity || 0);
+					return (
+						<details key={product._id || index} className={styles.productCard} open={products.length === 1}>
+							<summary className={styles.productHeader}>
+								<div className={styles.productHeaderLeft}>
+									<div className={styles.productName}>{product.name || "Без названия"}</div>
+									{product.brand && <div className={styles.productBrand}>{product.brand}</div>}
+								</div>
+								<div className={styles.productHeaderRight}>
+									<div className={styles.productQty}>×{product.quantity}</div>
+									<div className={styles.productPrice}>${totalProductCost.toFixed(2)}</div>
+								</div>
+							</summary>
+
+							<div className={styles.productBody}>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Категория</div>
+									<div className={styles.infoValue}>{product.category || "—"}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Размер</div>
+									<div className={styles.infoValue}>{product.size || "—"}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Цвет</div>
+									<div className={styles.infoValue}>{product.color || "—"}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Цена за единицу</div>
+									<div className={styles.infoValue}>${(product.price || 0).toFixed(2)}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Количество</div>
+									<div className={styles.infoValue}>{product.quantity}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Вес</div>
+									<div className={styles.infoValue}>{product.weight ? `${product.weight} кг` : "—"}</div>
+								</div>
+								<div className={styles.infoRow}>
+									<div className={styles.infoLabel}>Габариты</div>
+									<div className={styles.infoValue}>
+										{product.width_x && product.height_y && product.depth_z ? `${product.width_x}×${product.height_y}×${product.depth_z} см` : "—"}
+									</div>
+								</div>
+							</div>
+						</details>
+					);
+				})}
+
+				<div className={styles.totalRow}>
+					<div className={styles.totalLabel}>ИТОГО</div>
+					<div className={styles.totalDetails}>
+						<span>Кол-во: {totalQuantity}</span>
+						<span>${totalCost.toFixed(2)}</span>
+					</div>
+				</div>
+			</div>
+
+			{/* Секция CONSIGNEE INFO */}
+			<div className={styles.section}>
+				<div className={styles.sectionTitle}>ИНФОРМАЦИЯ О ПОЛУЧАТЕЛЕ</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Тип</div>
+					<div className={styles.infoValue}>{recipientType}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Имя</div>
+					<div className={styles.infoValue}>{recipientFullName}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>ID</div>
+					<div className={styles.infoValue}>{recipientId}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Номер телефона</div>
+					<div className={styles.infoValue}>{adress?.phone1 || "-"}</div>
+				</div>
+				{adress?.phone2 && (
+					<div className={styles.infoRow}>
+						<div className={styles.infoLabel}>Дополнительный телефон</div>
+						<div className={styles.infoValue}>{adress.phone2}</div>
+					</div>
+				)}
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Страна</div>
+					<div className={styles.infoValue}>{adress?.country || "-"}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Адрес</div>
+					<div className={styles.infoValue}>{adress?.adress || "-"}</div>
+				</div>
+				<div className={styles.infoRow}>
+					<div className={styles.infoLabel}>Почтовый индекс</div>
+					<div className={styles.infoValue}>{adress?.zip_code || "-"}</div>
+				</div>
+				{adress?.admin_description && (
+					<div className={styles.infoRow}>
+						<div className={styles.infoLabel}>Другая информация</div>
+						<div className={styles.infoValue}>{adress.admin_description}</div>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }

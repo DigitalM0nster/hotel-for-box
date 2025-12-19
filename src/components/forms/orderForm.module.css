@@ -1,0 +1,366 @@
+@charset "UTF-8";
+/* Стили формы заказа без tailwind. Все отступы и раскладки заданы явно. */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+  width: 100%;
+}
+
+.stepTitle {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.sectionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.labelText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.inlineInputsRow {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.inlineInputsRow > * {
+  flex: 1;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.checkboxText {
+  font-size: 13px;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.businessBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.emptyProducts {
+  padding: 12px 14px;
+  border: 1px dashed var(--color-f-gray-200, #d9d9d9);
+  border-radius: 12px;
+  color: #7a8498;
+  font-size: 14px;
+  background: var(--color-f-gray-50, #f5f5f5);
+}
+
+.productCard {
+  position: relative;
+  background: var(--color-f-gray-50, #f5f5f5);
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.productIndex {
+  color: var(--color-f-blue-950, #0e275d);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.productCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 4px;
+  cursor: pointer;
+}
+
+.productHeaderLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.productHeaderRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.productPrice {
+  color: var(--color-f-accent, #0059ff);
+  font-weight: 700;
+}
+
+.productCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px 4px;
+}
+
+.addProductRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-f-accent, #0059ff);
+}
+
+.addProductText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-f-accent, #0059ff);
+}
+
+.accentIcon :global(path) {
+  fill: var(--color-f-accent, #0059ff);
+}
+
+.totalSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.totalBox {
+  margin-top: 8px;
+}
+
+.totalValue {
+  color: var(--color-f-accent, #0059ff);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.totalLabel {
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 14px;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 24px;
+  background: var(--color-f-accent, #0059ff);
+  color: var(--color-f-white-100, #ffffff);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.primaryButton:disabled {
+  background: var(--color-f-blue-disabled, #6e9aed);
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  border-radius: 999px;
+  padding: 11px 24px;
+  background: var(--color-f-white-100, #ffffff);
+  color: var(--color-f-accent, #0059ff);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summaryBox {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #d4d7dd;
+  border-radius: 12px;
+  background: var(--color-f-white-100, #ffffff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.descriptionTitle {
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--color-f-accent, #0059ff);
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #d4d7dd;
+  border-radius: 12px;
+  background: #f7f8fb;
+  padding: 16px;
+}
+
+.infoTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5a6478;
+}
+
+.infoRows {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  align-items: center;
+  border-top: 1px solid #e0e4ec;
+}
+
+.infoRow:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.infoKey {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a6478;
+}
+
+.infoValue {
+  font-size: 14px;
+  color: #1f2430;
+  word-break: break-word;
+}
+
+.productsSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productSummaryRow {
+  display: grid;
+  grid-template-columns: 32px 1fr 90px 60px;
+  gap: 12px;
+  align-items: center;
+  color: #2c3240;
+}
+
+.productIndexSmall {
+  font-size: 13px;
+  opacity: 0.6;
+  font-weight: 600;
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-f-blue-950, #0e275d);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.productQuantity {
+  font-size: 14px;
+}
+
+.productQty {
+  font-size: 14px;
+  color: #1f2430;
+  font-weight: 600;
+}
+
+.productActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #d4d7dd;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.accentText {
+  color: var(--color-f-accent, #0059ff);
+  font-weight: 600;
+}
+
+.buttonsRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .inlineInputsRow {
+    flex-direction: column;
+  }
+  .infoRow {
+    grid-template-columns: 120px 1fr;
+  }
+  .productSummaryRow {
+    grid-template-columns: 24px 1fr 70px 60px;
+  }
+}/*# sourceMappingURL=orderForm.module.css.map */

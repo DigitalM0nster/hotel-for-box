@@ -1,14 +1,6 @@
-import { auth } from "@/auth";
-import StatusMsg from "@/components/windows/StatusWindow/StatusWindow";
+import { redirect } from "next/navigation";
 
-export default async function UserPage() {
-    const user = await auth();
-
-    return (
-        <div>
-            <h1>User</h1>
-            <StatusMsg status="platinum" />
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-        </div>
-    );
+export default function UserPage() {
+	// при заходе на /user отправляем на профиль как точку входа
+	redirect("/user/profile");
 }

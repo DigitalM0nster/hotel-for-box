@@ -8,158 +8,147 @@ import PhoneControled from "../ui/FormElements/Phone";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateUserFormData, updateUserSchema } from "@/helpers/zod/validateZod";
 // import "react-phone-input-2/lib/style.css";
-import { IUser } from "@/mongodb/models/userModel";
+import { IUser, IUserRole } from "@/mongodb/models/userModel";
 import { toastShowResult } from "@/helpers/toast/toastHelpers";
-import { useEffect } from "react";
 import { updateUser } from "@/libs/services/usersService";
-export default function UpdateUserForm({ user }: { user: IUser }) {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        control,
-        formState: { errors, isValid, isSubmitting, isDirty },
-    } = useForm<UpdateUserFormData>({
-        resolver: zodResolver(updateUserSchema),
-        mode: "onChange",
-        defaultValues: {
-            ...user,
-            bithday: user.birthday
-                ? new Date(user.birthday).toISOString().split("T")[0] //формируем дату для инпута
-                : undefined,
-        },
-    });
-    const handleAction = async (formData: UpdateUserFormData) => {
-        toastShowResult(await updateUser({ ...formData, fullData: true, id: user._id! }));
-        reset(formData);
-    };
+import styles from "./updateUserForm.module.scss";
 
-    return (
-        <form onSubmit={handleSubmit(handleAction)} className="flex flex-col gap-4 lg:gap-6">
-            <div className=" grid grid-cols-1 md:grid-cols-2  gap-4 lg:gap-6">
-                <div className="flex flex-col gap-4 lg:gap-6">
-                    <Input
-                        {...register("name")}
-                        title="Имя"
-                        required
-                        error={errors.name?.message}
-                    />
-                    <Input
-                        {...register("surname")}
-                        title="Фамилия"
-                        required
-                        error={errors.surname?.message}
-                    />
-                    <Input
-                        {...register("patronymic")}
-                        title="Отчество"
-                        required
-                        error={errors.patronymic?.message}
-                    />
+type UpdateUserFormProps = {
+	user: IUser;
+	// Роль текущего авторизованного пользователя (админ/суперадмин).
+	// В кабинете обычного пользователя это поле не передаём.
+	currentAdminRole?: IUserRole;
+	// Показывать ли ссылку "Поменять пароль".
+	// В своём кабинете пользователя — да, в админском режиме редактирования других — нет.
+	showChangePasswordLink?: boolean;
+};
 
-                    <Input
-                        {...register("bithday")}
-                        type="date"
-                        title="День рождения"
-                        required
-                        error={errors.bithday?.message}
-                    />
+export default function UpdateUserForm({ user, currentAdminRole, showChangePasswordLink = true }: UpdateUserFormProps) {
+	type FormValues = Required<UpdateUserFormData>;
 
-                    <Input
-                        title="Email Address (не редактируется)"
-                        defaultValue={user.email}
-                        name="email"
-                        type="email"
-                        disabled
-                    />
+	const defaultValues: FormValues = {
+		...user,
+		name: user.name || "",
+		surname: user.surname || "",
+		patronymic: user.patronymic || "",
+		gender: user.gender || "",
+		phone1: user.phone1 || "",
+		phone2: user.phone2 || "",
+		city: user.city || "",
+		adress: user.adress || "",
+		zip_code: user.zip_code || "",
+		notifications: Boolean(user.notifications),
+		isVerifiedByAdmin: Boolean(user.isVerifiedByAdmin),
+		role: user.role || "user",
+		bithday: user.birthday ? new Date(user.birthday).toISOString().split("T")[0] : "",
+	};
 
-                    <Select
-                        {...register("gender")}
-                        required
-                        title="Пол"
-                        name="gender"
-                        options={[
-                            { title: "Мужской", value: "male" },
-                            { title: "Женский", value: "female" },
-                        ]}
-                        disabledOption="Выберите пол"
-                    />
-                </div>
-                <div className="flex flex-col gap-4 lg:gap-6">
-                    <Controller
-                        name="phone1"
-                        control={control}
-                        render={({ field }) => (
-                            <PhoneControled
-                                {...field}
-                                title="Основной телефон"
-                                error={errors.phone1?.message}
-                                placeholder={"Введите номер"}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="phone2"
-                        control={control}
-                        render={({ field }) => (
-                            <PhoneControled
-                                {...field}
-                                value={user.phone2 || ""}
-                                title="Дополнительный телефон"
-                                error={errors.phone2?.message}
-                                placeholder={"Введите номер"}
-                            />
-                        )}
-                    />
-                    <Input
-                        {...register("city")}
-                        title="Город"
-                        error={errors.city?.message}
-                        min={2}
-                        max={15}
-                        required
-                    />
-                    <Input
-                        {...register("adress")}
-                        title="Адресс"
-                        error={errors.adress?.message}
-                        min={2}
-                        max={15}
-                        required
-                    />
-                    <Input
-                        {...register("zip_code_eng")}
-                        title="Zip-Code (ENG)"
-                        error={errors.zip_code_eng?.message}
-                        required
-                    />
-                </div>
-            </div>
+	const {
+		register,
+		handleSubmit,
+		reset,
+		control,
+		formState: { errors, isValid, isSubmitting, isDirty },
+	} = useForm<FormValues>({
+		resolver: zodResolver(updateUserSchema) as any,
+		mode: "onChange",
+		defaultValues,
+	});
+	const handleAction = async (formData: FormValues) => {
+		toastShowResult(await updateUser({ ...formData, fullData: true, id: user._id! }));
+		reset(formData);
+	};
 
-            <Input {...register("notifications")} type="checkbox" title="Получать уведомления" />
+	return (
+		<form onSubmit={handleSubmit(handleAction)} className={styles.formWrapper}>
+			<div className={styles.formGrid}>
+				<div className={styles.column}>
+					{/* Показываем человекочитаемый ID (publicId), а при его отсутствии — внутренний _id. */}
+					<div className={styles.readonlyField}>
+						<div className={styles.readonlyLabel}>ID пользователя</div>
+						<div className={styles.readonlyValue}>{user.publicId || user._id}</div>
+					</div>
 
-            <div
-                className="flex flex-row gap-4
-                       
-                        "
-            >
-                <Link
-                    href={"change_password"}
-                    className="button-1 border-1 border-f-accent p-[11px] px-6 rounded-full text-center cursor-pointer text-f-accent"
-                >
-                    Поменять пароль
-                </Link>
+					{/* Поле роли показываем только суперадмину в админских формах. */}
+					{currentAdminRole === "super" && (
+						<>
+							{user.role === "super" ? (
+								<div className={styles.readonlyField}>
+									<div className={styles.readonlyLabel}>Роль пользователя</div>
+									<div className={styles.readonlyValue}>Суперадминистратор</div>
+								</div>
+							) : (
+								<Select
+									{...register("role")}
+									title="Роль пользователя"
+									name="role"
+									options={[
+										{ title: "Пользователь", value: "user" },
+										{ title: "Администратор", value: "admin" },
+									]}
+									disabledOption="Выберите роль"
+								/>
+							)}
+						</>
+					)}
+					<Input {...register("name")} title="Имя" required error={errors.name?.message} />
+					<Input {...register("surname")} title="Фамилия" error={errors.surname?.message} />
+					<Input {...register("patronymic")} title="Отчество" error={errors.patronymic?.message} />
 
-                <button
-                    type="submit"
-                    disabled={!(isDirty && isValid && !isSubmitting)}
-                    className="button-1  p-[11px] px-6 rounded-full text-center cursor-pointer text-f-white-100 bg-f-accent
-                                disabled:bg-f-blue-disabled disabled:cursor-not-allowed
-                                "
-                >
-                    Сохранить
-                </button>
-            </div>
-        </form>
-    );
+					<Input {...register("bithday")} type="date" title="День рождения" error={errors.bithday?.message} />
+
+					{/* Email также показываем как нередактируемое поле в общем блоке. */}
+					<div className={styles.readonlyField}>
+						<div className={styles.readonlyLabel}>Email (не редактируется)</div>
+						<div className={styles.readonlyValue}>{user.email}</div>
+					</div>
+
+					<Select
+						{...register("gender")}
+						title="Пол"
+						name="gender"
+						// Даём возможность явно выбрать состояние "Пол не указан".
+						options={[
+							{ title: "Пол не указан", value: "" },
+							{ title: "Мужской", value: "male" },
+							{ title: "Женский", value: "female" },
+						]}
+					/>
+				</div>
+				<div className={styles.column}>
+					<Controller
+						name="phone1"
+						control={control}
+						render={({ field }) => <PhoneControled {...field} title="Основной телефон" error={errors.phone1?.message} placeholder={"Введите номер"} />}
+					/>
+					<Controller
+						name="phone2"
+						control={control}
+						render={({ field }) => (
+							<PhoneControled {...field} value={field.value || ""} title="Дополнительный телефон" error={errors.phone2?.message} placeholder={"Введите номер"} />
+						)}
+					/>
+					<Input {...register("city")} title="Город" error={errors.city?.message} min={2} max={15} />
+					<Input {...register("adress")} title="Адрес" error={errors.adress?.message} min={2} max={15} />
+					<Input {...register("zip_code")} title="Почтовый индекс" error={errors.zip_code?.message} />
+				</div>
+			</div>
+
+			<Input {...register("notifications")} type="checkbox" title="Получать уведомления" />
+			{/* Флаг подтверждения показываем только администратору/суперадмину. */}
+			{(currentAdminRole === "admin" || currentAdminRole === "super") && <Input {...register("isVerifiedByAdmin")} type="checkbox" title="Подтверждён администратором" />}
+
+			<div className={styles.actions}>
+				{/* Ссылку на смену пароля показываем только в личном кабинете самого пользователя. */}
+				{showChangePasswordLink && (
+					<Link href={"/user/change_password"} className={styles.changePassword}>
+						Поменять пароль
+					</Link>
+				)}
+				<button type="submit" disabled={!(isDirty && isValid && !isSubmitting)} className={styles.submitButton}>
+					Сохранить
+				</button>
+			</div>
+		</form>
+	);
 }

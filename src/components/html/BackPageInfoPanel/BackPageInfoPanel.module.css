@@ -1,0 +1,62 @@
+@charset "UTF-8";
+.backPanelWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 56px;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backIcon {
+  cursor: pointer;
+}
+
+.backIcon :global(*) {
+  fill: var(--color-f-blue-500, #56688e);
+}
+
+.mobileTitle {
+  display: none;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+.desktopTitle {
+  display: block;
+  color: var(--color-f-blue-500, #56688e);
+}
+
+.exitLink {
+  display: none;
+}
+
+/* До 1024px — планшеты и телефоны */
+@media (max-width: 1024px) {
+  .backPanelWrapper {
+    justify-content: space-between;
+    padding-bottom: 32px;
+  }
+  .backLink {
+    gap: 8px;
+  }
+  .backIcon :global(*) {
+    fill: var(--color-f-blue-950, #0e275d);
+  }
+  .mobileTitle {
+    display: block;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .desktopTitle {
+    display: none;
+  }
+  .exitLink {
+    display: flex;
+  }
+}/*# sourceMappingURL=BackPageInfoPanel.module.css.map */

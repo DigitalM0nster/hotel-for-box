@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/* Оформление формы товара без tailwind. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.columns {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inlineRow {
+  display: flex;
+  gap: 12px;
+}
+
+.inlineRow > * {
+  flex: 1;
+}
+
+.dimensionsRow {
+  display: flex;
+  gap: 12px;
+}
+
+.dimensionsRow > * {
+  flex: 1;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid #e14b4b;
+  background: #ffffff;
+  color: #e14b4b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  background: var(--color-f-accent, #0059ff);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background: var(--color-f-blue-disabled, #6e9aed);
+  border-color: var(--color-f-blue-disabled, #6e9aed);
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .inlineRow,
+  .dimensionsRow {
+    flex-direction: column;
+  }
+}/*# sourceMappingURL=productForm.module.css.map */

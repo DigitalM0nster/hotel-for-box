@@ -1,0 +1,683 @@
+@charset "UTF-8";
+/* Общие стили для таблиц в админке (пользователи, заказы и т.д.). */
+/* Обёртка вокруг таблицы и панелей фильтров. */
+.adminTableWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 1px;
+}
+
+/* Панель активных фильтров над таблицей. */
+.adminFiltersPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  background: #f7f9ff;
+}
+
+.adminFiltersPanelHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminFiltersPanelTitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a8498;
+}
+
+.adminFiltersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.adminFiltersChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  background: #ffffff;
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.adminFiltersChip:hover {
+  opacity: 0.2;
+}
+
+.adminSortChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  background: #ffffff;
+  color: var(--color-f-blue-950, #0e275d);
+  font-size: 12px;
+}
+
+.adminFiltersClearButton {
+  align-self: flex-start;
+}
+
+.adminOrderCardSectionProducts .adminTable {
+  display: table-caption;
+}
+.adminOrderCardSectionProducts .adminTable thead tr:first-child th:first-child {
+  padding: 20px;
+}
+.adminOrderCardSectionProducts .adminTable thead tr:first-child th:last-child {
+  padding: 20px;
+}
+.adminOrderCardSectionProducts .adminTable thead tr:first-child th {
+  padding: 20px;
+}
+
+/* Таблица в админке. */
+.adminTable {
+  width: 100%;
+  min-height: 500px;
+  border-collapse: collapse;
+  border-radius: 16px;
+  background: var(--color-f-white-100, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.adminTable thead {
+  background: #f5f7fb;
+  width: 100%;
+}
+
+.adminTable tbody {
+  width: 100%;
+}
+
+.adminTable th {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a8498;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+  vertical-align: bottom;
+}
+
+.adminTable input,
+.adminTable select {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+}
+.adminTable .adminDateInput {
+  border: none;
+  padding: 10px;
+  font-size: 12px;
+  min-width: auto;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Верхняя строка шапки (заголовки колонок) — убираем нижнюю границу,
+   чтобы визуально связать её с строкой фильтров под ней, а не отделять. */
+.adminTable thead tr:first-child th {
+  border-bottom: none;
+}
+
+/* Строка с инпутами-фильтрами — оставляем разделительную линию,
+   которая уже отделяет зону фильтров от основной части таблицы. */
+.adminTable thead tr:last-child th {
+  padding: 0 10px 4px 10px;
+  border-bottom: 1px solid var(--color-f-gray-200, #d9d9d9);
+}
+
+.adminTable thead tr:first-child th:first-child {
+  border-radius: 20px 0px 0px 0px;
+}
+
+.adminTable thead tr:first-child th:last-child {
+  border-radius: 0px 20px 0px 0px;
+}
+
+.adminTable td {
+  padding: 4px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-f-blue-950, #0e275d);
+  border-bottom: 1px solid #edf0f5;
+  vertical-align: middle;
+}
+
+/* Поля выбора даты в фильтрах — убираем стандартную иконку календаря,
+   чтобы поле выглядело как обычный инпут, но при этом оставалось кликабельным. */
+.adminTable input[type=date] {
+  cursor: pointer;
+}
+
+.adminTable input[type=date]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+/* Обёртка для нашего кастомного диапазона дат "от — до". */
+.adminDateRangeWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.adminDateRange {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.adminDateInput {
+  border: none;
+  padding: 10px;
+  font-size: 12px;
+  min-width: auto;
+  height: 100%;
+  box-sizing: border-box;
+  max-width: 80px;
+}
+
+/* Первый инпут диапазона (дата "от") визуально прижимаем текст к тире. */
+.adminDateRange .adminDateInput:first-child {
+  text-align: right;
+  padding-right: 4px;
+  padding-left: 10px;
+}
+
+/* Второй инпут диапазона (дата "до") оставляем выравненным влево,
+   немного сдвигая текст ближе к тире. */
+.adminDateRange .adminDateInput:last-child {
+  text-align: left;
+  padding-left: 6px;
+  padding-right: 10px;
+}
+
+.adminDateInput:focus {
+  outline: none;
+}
+
+.adminDateSeparator {
+  font-size: 12px;
+  color: #7a8498;
+  padding: 0 4px;
+}
+
+/* Попап календаря под полем диапазона. */
+.adminDatePicker {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--color-f-gray-200, #d9d9d9);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+}
+
+.adminDatePickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.adminDatePickerTitle {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.adminDatePickerTable {
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.adminDatePickerTable th {
+  padding: 4px 6px;
+  text-align: center;
+  color: #7a8498;
+  font-weight: 500;
+}
+
+.adminDatePickerTable td {
+  padding: 1px;
+  text-align: center;
+}
+
+.adminDatePickerDayButton {
+  min-width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  color: #1f2430;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.adminDatePickerDayButton:hover {
+  background-color: var(--color-f-accent, #0059ff);
+  color: #ffffff;
+}
+
+.adminDatePickerEmptyCell {
+  display: inline-block;
+  min-width: 24px;
+  height: 24px;
+}
+
+/* Чередование строк для лучшей читаемости */
+.adminTableRow:nth-child(even) {
+  background: #fafbff;
+}
+
+/* Эффект при наведении на строку таблицы */
+.adminTableRow:hover {
+  background: #eef4ff;
+}
+
+/* Ячейка с действиями — выравниваем контент по правому краю на десктопе */
+.adminTable td:last-child {
+  white-space: nowrap;
+}
+
+/* Строка с кнопками действий в ячейке. */
+.adminTableActionsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminTableActionsRowTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0px;
+}
+
+.adminBackButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-f-blue-950, #0e275d);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  border: none;
+  background: transparent;
+}
+.adminBackButton:hover {
+  opacity: 0.7;
+}
+.adminBackButton span {
+  line-height: 1;
+}
+
+.adminTableActionsRowBottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.adminTableActionButton {
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 999px;
+  border: 1px solid var(--color-f-accent, #0059ff);
+  background: #ffffff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-f-accent, #0059ff);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.adminTableActionButton.link {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  padding: 0;
+  margin: 10px 0px 0px 0px;
+}
+.adminTableActionButton.link:hover:not(:disabled) {
+  color: var(--color-f-blue-950, #0e275d);
+  background: transparent;
+}
+
+.adminTableActionButton:hover:not(:disabled) {
+  background: var(--color-f-accent, #0059ff);
+  color: #ffffff;
+}
+
+.adminTableActionButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.adminTableActionDanger {
+  border-color: #dc2626;
+  color: #dc2626;
+  background: #ffffff;
+}
+
+.adminTableActionButton.adminTableActionDanger:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.adminTableActionButton.adminTableActionDanger:disabled {
+  opacity: 0.7;
+}
+
+.adminTableFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.adminTableDate {
+  font-size: 12px;
+  color: #7a8498;
+  white-space: nowrap;
+}
+
+/* ----------------------------- */
+/* Детальная карточка заказа    */
+/* ----------------------------- */
+.adminOrderCardGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.2fr);
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.adminOrderCardSection {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 0 0 1px #eef2f7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adminOrderCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.adminOrderCardRow {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  -moz-column-gap: 12px;
+       column-gap: 12px;
+  row-gap: 4px;
+  align-items: flex-start;
+  font-size: 13px;
+}
+
+.adminOrderCardKey {
+  color: #7a8498;
+}
+
+.adminOrderCardValue {
+  color: #1f2933;
+}
+
+.adminOrderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.adminOrderInput,
+.adminOrderTextarea,
+.adminOrderTripleInputRow input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d0d7e2;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.adminOrderTextarea {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.adminOrderTripleInputRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.adminOrderInput:focus,
+.adminOrderTextarea:focus,
+.adminOrderTripleInputRow input:focus {
+  border: 1px solid;
+  outline: none;
+  border-color: var(--color-f-accent, #0059ff);
+  box-shadow: 0 0 0 1px rgba(0, 89, 255, 0.12);
+}
+
+.adminOrderTabs {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 8px 0;
+}
+
+.adminOrderTab {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: #f5f7fb;
+  color: #4a5568;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.adminOrderTabActive {
+  border-color: var(--color-f-accent, #0059ff);
+  background: #ffffff;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+@media (max-width: 992px) {
+  .adminOrderCardGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .adminOrderCardRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Детальная информация о товаре */
+.productRowClickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.productRowClickable:hover {
+  background: #eef4ff;
+}
+
+.productExpandIcon {
+  width: 40px;
+  text-align: center;
+}
+
+.productExpandIconInner {
+  font-size: 12px;
+  color: #7a8498;
+}
+
+.productDetailsCell {
+  padding: 16px;
+  background: #f7f9ff;
+}
+
+.productDetailsHeader {
+  width: 40px;
+  text-align: center;
+}
+
+.productDetailsExpanded {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.productDetailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.productDetailsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.productDetailsLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7a8498;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.productDetailsValue {
+  font-size: 14px;
+  color: var(--color-f-blue-950, #0e275d);
+}
+
+/* Стили для вложенной таблицы заказов в объединенных группах */
+.combinedOrdersNestedCell {
+  padding: 16px 16px 16px 32px !important;
+  background: #f7f9ff;
+  width: 100%;
+  border-left: 3px solid var(--color-f-accent, #0059ff);
+}
+
+.combinedOrdersNestedHeader {
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: var(--color-f-accent, #0059ff);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.combinedOrdersNestedTableWrapper {
+  padding: 0;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+  background: #ffffff;
+  border-radius: 0px;
+  border: 1px solid #e0e7f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.combinedOrdersNestedTableWrapper .adminTable {
+  margin: 0;
+  border-radius: 6px;
+  box-shadow: none;
+  min-height: auto;
+  display: table;
+  width: 100%;
+  table-layout: auto;
+  background: #fafbfd;
+  border: 1px solid #d1d9e6;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable thead {
+  background: #e8edf5;
+  border-bottom: 2px solid #d1d9e6;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable th {
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5a6578;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: none;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable td {
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #3d4756;
+  border-bottom: 1px solid #e5e9f0;
+  background: #ffffff;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable tbody tr:nth-child(even) td {
+  background: #f7f9fc;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable tbody tr:hover td {
+  background: #f0f4f9;
+}
+
+.combinedOrdersNestedTableWrapper .adminTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .adminTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .productDetailsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}/*# sourceMappingURL=AdminTable.module.css.map */

@@ -1,0 +1,11 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Трехмерная коробка с клапаном крышки (посылка) -->
+  <!-- Основная коробка -->
+  <path d="M2.5 5.5L8 2.5L13.5 5.5V11L8 13.5L2.5 11V5.5Z" fill="currentColor"/>
+  <!-- Верхняя грань с эффектом 3D -->
+  <path d="M2.5 5.5L8 8L13.5 5.5" fill="currentColor" opacity="0.75"/>
+  <!-- Боковая грань -->
+  <path d="M13.5 5.5V11L8 13.5" stroke="currentColor" stroke-width="0.5" opacity="0.4" fill="none"/>
+  <!-- Клапан крышки сверху -->
+  <path d="M8 2.5L9.5 4L8 5.5L6.5 4L8 2.5Z" fill="currentColor" opacity="0.9"/>
+</svg>
